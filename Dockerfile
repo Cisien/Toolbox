@@ -12,17 +12,22 @@ RUN apt-get update \
     && apt-get install -y nfs-common kubectl docker-ce-cli docker-compose dotnet-sdk-3.0
 
 RUN mkdir -p /var/run/sshd \
+    mkdir -p /etc/ssh/host_keys \
     && sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config \
     && sed -i 's/#PubkeyAuthentication/PubkeyAuthentication/' /etc/ssh/sshd_config \
+    && sed -i 's/#PubkeyAuthentication/PubkeyAuthentication/' /etc/ssh/sshd_config \
+    && sed -i 's|#HostKey /etc/ssh/ssh_|HostKey /etc/ssh/host_keys/ssh_|' /etc/ssh/sshd_config \
     && sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+
 COPY start-sshd.sh .
-EXPOSE 22
 
 RUN adduser --disabled-password --gecos '' docker \
     && adduser docker sudo \
     && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
     && chmod a+rx start-sshd.sh
 
+
+EXPOSE 22
 USER docker
 WORKDIR /home/docker
 ENTRYPOINT /start-sshd.sh
