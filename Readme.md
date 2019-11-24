@@ -5,3 +5,8 @@ The container will start an sshd instance with password auth disabled, and publi
 | Environment Variable | Value |
 | -------------------- | ----- |
 | AUTHORIZED_KEYS | ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAjnk7... |
+
+### Running
+```sh
+ docker run -it -e AUTHORIZED_KEYS=ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAjnk7... cisien/toolbox:latest
+ ```
