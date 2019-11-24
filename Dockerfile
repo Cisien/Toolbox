@@ -20,7 +20,8 @@ EXPOSE 22
 
 RUN adduser --disabled-password --gecos '' docker \
     && adduser docker sudo \
-    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
+    && chmod a+rx start-sshd.sh
 
 USER docker
 WORKDIR /home/docker
