@@ -5,11 +5,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - env:
-        DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}  
     - uses: actions/checkout@v1
     - name: Login to docker hub
       run: echo $DOCKER_HUB_PASSWORD | docker login --username cisien --password-stdin
+      env:
+        DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}  
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag cisien/toolbox:latest
     - name: Push docker iamge
